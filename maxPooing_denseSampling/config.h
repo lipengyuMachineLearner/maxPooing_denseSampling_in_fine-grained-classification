@@ -10,5 +10,8 @@ const int NUM_SCALAR = 3;
 const int SCALAR[NUM_SCALAR] = {100, 50, 25};
 const int SCALAR_RATIO[NUM_SCALAR] = { 10, 90, 400 };
 
+const bool SIGN_EXPAND_KERNEL = true;
+const int CONV_STEP = 1;
+
 
 

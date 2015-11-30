@@ -1,11 +1,12 @@
 #include "CConvMaxPooling.h"
 
-CConvMaxPooling::CConvMaxPooling(int num_kernel, int num_img, vector<string> &img_files, vector<int> &label_vec)
+CConvMaxPooling::CConvMaxPooling(int num_kernel, int num_img, vector<string> &img_files, vector<int> &label_vec, vector<string> &kernel_files)
 {
 	num_kernel_ = num_kernel;
 	num_img_ = num_img;
 	img_files_ = img_files;
 	label_vec_ = label_vec;
+	kernel_files_ = kernel_files;
 
 	feature_ = Mat::zeros(num_img_, num_kernel_, CV_32FC1);
 	vote_feature_ = Mat::zeros(num_kernel_, 1, CV_32FC1);

@@ -19,7 +19,7 @@ private:
 	float trainWithRandomForest() { return 0; }
 
 public:
-	CConvMaxPooling(int num_kernel, int num_img, vector<string> &img_files, vector<int> &label_vec);
+	CConvMaxPooling(int num_kernel, int num_img, vector<string> &img_files, vector<int> &label_vec, vector<string> &kernel_files);
 	float train(bool sign_expand_kernel, int step_conv);
 	
 };

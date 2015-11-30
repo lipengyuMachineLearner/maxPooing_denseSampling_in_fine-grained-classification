@@ -93,86 +93,101 @@ float CSamplingKernel::convolution(IplImage *img, Mat &img_convolution, bool sig
 	int channel_img = img->nChannels;
 	unsigned char *data_img = (unsigned char *)img->imageData;
 
-	Mat img_mat = Mat::zeros(((width_img - width_) / conv_step + 1) * ((height_img - height_) / conv_step + 1), width_*height_, CV_32FC3);
+	//Mat img_mat = Mat::zeros(((width_img - width_) / conv_step + 1) * ((height_img - height_) / conv_step + 1), width_*height_, CV_32FC3);
 
-	int h_mat = 0;
-	int w_mat = 0;
-	for (int h = 0; h < height_img-height_; h += conv_step)
-	{
-		for (int w = 0; w < width_img-width_; w += conv_step)
-		{
-			w_mat = 0;
-			for (int hh = 0; hh < height_; hh++)
-			{
-				for (int ww = 0; ww < width_; ww++)
-				{
-					for (int cc = 0; cc < channel_img; cc++)
-					{
-						img_mat.at<Vec3f>(h_mat, w_mat)[cc] = data_img[cc + (w + ww)*channel_img + (h + hh)*step_img];
-					}
-					w_mat++;
-				}
-			}
-			h_mat++;
-		}
-	}
+	//int h_mat = 0;
+	//int w_mat = 0;
+	//for (int h = 0; h < height_img-height_; h += conv_step)
+	//{
+	//	for (int w = 0; w < width_img-width_; w += conv_step)
+	//	{
+	//		w_mat = 0;
+	//		for (int hh = 0; hh < height_; hh++)
+	//		{
+	//			for (int ww = 0; ww < width_; ww++)
+	//			{
+	//				for (int cc = 0; cc < channel_img; cc++)
+	//				{
+	//					img_mat.at<Vec3f>(h_mat, w_mat)[cc] = data_img[cc + (w + ww)*channel_img + (h + hh)*step_img];
+	//				}
+	//				w_mat++;
+	//			}
+	//		}
+	//		h_mat++;
+	//	}
+	//}
 
 	Mat kernel_mat;
 	if (sign_expand_kernel == false)
 	{
 		kernel_mat.create(height_*width_, 1, CV_32FC3);
 		resize(data_, kernel_mat, Size(height_*width_, 1), 0, 0, CV_INTER_LINEAR);
+		img_convolution.create(((width_img - width_) / conv_step + 1) * ((height_img - height_) / conv_step + 1), 1, CV_32FC3);
 	}
 	else
 	{
-		kernel_mat.create(height_*width_, 28, CV_32FC3);
+		kernel_mat.create(height_*width_, 8, CV_32FC3);
+		img_convolution.create(((width_img - width_) / conv_step + 1) * ((height_img - height_) / conv_step + 1), 8, CV_32FC3);
+
 		for (int h = 0; h < height_; h++)
 		{
 			for (int w = 0; w < width_; w++)
 			{
 				for (int c = 0; c < channel_; c++)
 				{
-					kernel_mat.at<Vec3f>(w + h*width_, 0)[c] = data_.at<Vec3f>(h, w)[c];
-					kernel_mat.at<Vec3f>(w + h*width_, 1)[c] = data_.at<Vec3f>(height_-1-h, w)[c];
-					kernel_mat.at<Vec3f>(w + h*width_, 2)[c] = data_.at<Vec3f>(h, width_-1-w)[c];
-					kernel_mat.at<Vec3f>(w + h*width_, 3)[c] = data_.at<Vec3f>(height_-1-h, width_-1-w)[c];
+					//kernel_mat.at<Vec3f>(w + h*width_, 0)[c] = data_.at<Vec3f>(h, w)[c];
+					//kernel_mat.at<Vec3f>(w + h*width_, 1)[c] = data_.at<Vec3f>(height_-1-h, w)[c];
+					//kernel_mat.at<Vec3f>(w + h*width_, 2)[c] = data_.at<Vec3f>(h, width_-1-w)[c];
+					//kernel_mat.at<Vec3f>(w + h*width_, 3)[c] = data_.at<Vec3f>(height_-1-h, width_-1-w)[c];
 
-					kernel_mat.at<Vec3f>(width_-1- w + h*width_, 4)[c] = data_.at<Vec3f>(h, w)[c];
-					kernel_mat.at<Vec3f>(width_ - 1 - w + h*width_, 5)[c] = data_.at<Vec3f>(height_ - 1 - h, w)[c];
-					kernel_mat.at<Vec3f>(width_ - 1 - w + h*width_, 6)[c] = data_.at<Vec3f>(h, width_ - 1 - w)[c];
-					kernel_mat.at<Vec3f>(width_ - 1 - w + h*width_, 7)[c] = data_.at<Vec3f>(height_ - 1 - h, width_ - 1 - w)[c];
+					//kernel_mat.at<Vec3f>(width_-1- w + h*width_, 4)[c] = data_.at<Vec3f>(h, w)[c];
+					//kernel_mat.at<Vec3f>(width_ - 1 - w + h*width_, 5)[c] = data_.at<Vec3f>(height_ - 1 - h, w)[c];
+					//kernel_mat.at<Vec3f>(width_ - 1 - w + h*width_, 6)[c] = data_.at<Vec3f>(h, width_ - 1 - w)[c];
+					//kernel_mat.at<Vec3f>(width_ - 1 - w + h*width_, 7)[c] = data_.at<Vec3f>(height_ - 1 - h, width_ - 1 - w)[c];
 
-					kernel_mat.at<Vec3f>(w + (height_ - 1 - h)*width_, 8)[c] = data_.at<Vec3f>(h, w)[c];
-					kernel_mat.at<Vec3f>(w + (height_ - 1 - h)*width_, 9)[c] = data_.at<Vec3f>(height_ - 1 - h, w)[c];
-					kernel_mat.at<Vec3f>(w + (height_ - 1 - h)*width_, 10)[c] = data_.at<Vec3f>(h, width_ - 1 - w)[c];
-					kernel_mat.at<Vec3f>(w + (height_ - 1 - h)*width_, 11)[c] = data_.at<Vec3f>(height_ - 1 - h, width_ - 1 - w)[c];
+					kernel_mat.at<Vec3f>(w + (height_ - 1 - h)*width_, 1)[c] = data_.at<Vec3f>(h, w)[c];
+					kernel_mat.at<Vec3f>(w + (height_ - 1 - h)*width_, 2)[c] = data_.at<Vec3f>(height_ - 1 - h, w)[c];
+					kernel_mat.at<Vec3f>(w + (height_ - 1 - h)*width_, 3)[c] = data_.at<Vec3f>(h, width_ - 1 - w)[c];
+					kernel_mat.at<Vec3f>(w + (height_ - 1 - h)*width_, 4)[c] = data_.at<Vec3f>(height_ - 1 - h, width_ - 1 - w)[c];
 
 
-					kernel_mat.at<Vec3f>(h + w*height_, 12)[c] = data_.at<Vec3f>(h, w)[c];
-					kernel_mat.at<Vec3f>(h + w*height_, 13)[c] = data_.at<Vec3f>(height_ - 1 - h, w)[c];
-					kernel_mat.at<Vec3f>(h + w*height_, 14)[c] = data_.at<Vec3f>(h, width_ - 1 - w)[c];
-					kernel_mat.at<Vec3f>(h + w*height_, 15)[c] = data_.at<Vec3f>(height_ - 1 - h, width_ - 1 - w)[c];
+					kernel_mat.at<Vec3f>(h + w*height_, 5)[c] = data_.at<Vec3f>(h, w)[c];
+					kernel_mat.at<Vec3f>(h + w*height_, 6)[c] = data_.at<Vec3f>(height_ - 1 - h, w)[c];
+					kernel_mat.at<Vec3f>(h + w*height_, 7)[c] = data_.at<Vec3f>(h, width_ - 1 - w)[c];
+					kernel_mat.at<Vec3f>(h + w*height_, 0)[c] = data_.at<Vec3f>(height_ - 1 - h, width_ - 1 - w)[c];
 
-					kernel_mat.at<Vec3f>(height_ - 1 - h + w*height_, 16)[c] = data_.at<Vec3f>(h, w)[c];
-					kernel_mat.at<Vec3f>(height_ - 1 - h + w*height_, 17)[c] = data_.at<Vec3f>(height_ - 1 - h, w)[c];
-					kernel_mat.at<Vec3f>(height_ - 1 - h + w*height_, 18)[c] = data_.at<Vec3f>(h, width_ - 1 - w)[c];
-					kernel_mat.at<Vec3f>(height_ - 1 - h + w*height_, 19)[c] = data_.at<Vec3f>(height_ - 1 - h, width_ - 1 - w)[c];
+					//kernel_mat.at<Vec3f>(height_ - 1 - h + w*height_, 16)[c] = data_.at<Vec3f>(h, w)[c];
+					//kernel_mat.at<Vec3f>(height_ - 1 - h + w*height_, 17)[c] = data_.at<Vec3f>(height_ - 1 - h, w)[c];
+					//kernel_mat.at<Vec3f>(height_ - 1 - h + w*height_, 18)[c] = data_.at<Vec3f>(h, width_ - 1 - w)[c];
+					//kernel_mat.at<Vec3f>(height_ - 1 - h + w*height_, 19)[c] = data_.at<Vec3f>(height_ - 1 - h, width_ - 1 - w)[c];
 
-					kernel_mat.at<Vec3f>(h + (width_ - 1 - w)*height_, 20)[c] = data_.at<Vec3f>(h, w)[c];
-					kernel_mat.at<Vec3f>(h + (width_ - 1 - w)*height_, 21)[c] = data_.at<Vec3f>(height_ - 1 - h, w)[c];
-					kernel_mat.at<Vec3f>(h + (width_ - 1 - w)*height_, 22)[c] = data_.at<Vec3f>(h, width_ - 1 - w)[c];
-					kernel_mat.at<Vec3f>(h + (width_ - 1 - w)*height_, 23)[c] = data_.at<Vec3f>(height_ - 1 - h, width_ - 1 - w)[c];
+					//kernel_mat.at<Vec3f>(h + (width_ - 1 - w)*height_, 20)[c] = data_.at<Vec3f>(h, w)[c];
+					//kernel_mat.at<Vec3f>(h + (width_ - 1 - w)*height_, 21)[c] = data_.at<Vec3f>(height_ - 1 - h, w)[c];
+					//kernel_mat.at<Vec3f>(h + (width_ - 1 - w)*height_, 22)[c] = data_.at<Vec3f>(h, width_ - 1 - w)[c];
+					//kernel_mat.at<Vec3f>(h + (width_ - 1 - w)*height_, 23)[c] = data_.at<Vec3f>(height_ - 1 - h, width_ - 1 - w)[c];
 
-					kernel_mat.at<Vec3f>(height_ - 1 - h + (width_ - 1 - w)*height_, 24)[c] = data_.at<Vec3f>(h, w)[c];
-					kernel_mat.at<Vec3f>(height_ - 1 - h + (width_ - 1 - w)*height_, 25)[c] = data_.at<Vec3f>(height_ - 1 - h, w)[c];
-					kernel_mat.at<Vec3f>(height_ - 1 - h + (width_ - 1 - w)*height_, 26)[c] = data_.at<Vec3f>(h, width_ - 1 - w)[c];
-					kernel_mat.at<Vec3f>(height_ - 1 - h + (width_ - 1 - w)*height_, 27)[c] = data_.at<Vec3f>(height_ - 1 - h, width_ - 1 - w)[c];
+					//kernel_mat.at<Vec3f>(height_ - 1 - h + (width_ - 1 - w)*height_, 24)[c] = data_.at<Vec3f>(h, w)[c];
+					//kernel_mat.at<Vec3f>(height_ - 1 - h + (width_ - 1 - w)*height_, 25)[c] = data_.at<Vec3f>(height_ - 1 - h, w)[c];
+					//kernel_mat.at<Vec3f>(height_ - 1 - h + (width_ - 1 - w)*height_, 26)[c] = data_.at<Vec3f>(h, width_ - 1 - w)[c];
+					//kernel_mat.at<Vec3f>(height_ - 1 - h + (width_ - 1 - w)*height_, 27)[c] = data_.at<Vec3f>(height_ - 1 - h, width_ - 1 - w)[c];
 				}
 			}
 		}
 	}
 
-	img_convolution = img_mat * kernel_mat;
+	//img_convolution = img_mat * kernel_mat;
+	for (int k = 0; k < kernel_mat.cols; k++)
+	{
+		for (int h = 0; h < height_img - height_; h += conv_step)
+		{
+			for (int w = 0; w < width_img - width_; w += conv_step)
+			{
+				for (int c = 0; c < channel_; c++)
+					img_convolution.at<Vec3f>(w + h * (width_img - width_) / conv_step, k) = convolutionComputer(img, kernel_mat.col(k), w, h);
+			}
+		}
+	}
+
 	return max;
 }
 
@@ -183,7 +198,7 @@ void CSamplingKernel::save(string fileName)
 
 	outfileBin.write((char *)&label_, sizeof(label_));
 	outfileBin.write((char *)&index_, sizeof(index_));
-	outfileBin.write((char *)&name_src_, sizeof(name_src_));
+	//outfileBin.write((char *)name_src_.c_str(), sizeof(name_src_.c_str()));
 	outfileBin.write((char *)&width_, sizeof(width_));
 	outfileBin.write((char *)&height_, sizeof(height_));
 	outfileBin.write((char *)&channel_, sizeof(channel_));
@@ -223,7 +238,7 @@ void CSamplingKernel::load(string fileName)
 
 	infileBin.read((char *)&label_, sizeof(label_));
 	infileBin.read((char *)&index_, sizeof(index_));
-	infileBin.read((char *)&name_src_, sizeof(name_src_));
+	//infileBin.read((char *)name_src_.c_str(), sizeof(name_src_.c_str()));
 	infileBin.read((char *)&width_, sizeof(width_));
 	infileBin.read((char *)&height_, sizeof(height_));
 	infileBin.read((char *)&channel_, sizeof(channel_));
