@@ -183,7 +183,7 @@ float CSamplingKernel::convolution(IplImage *img, Mat &img_convolution, bool sig
 			for (int w = 0; w < width_img - width_; w += conv_step)
 			{
 				for (int c = 0; c < channel_; c++)
-					img_convolution.at<Vec3f>(w + h * (width_img - width_) / conv_step, k) = convolutionComputer(img, kernel_mat.col(k), w, h);
+					;//img_convolution.at<Vec3f>(w + h * (width_img - width_) / conv_step, k) = convolutionComputer(img, kernel_mat.col(k), w, h);
 			}
 		}
 	}
