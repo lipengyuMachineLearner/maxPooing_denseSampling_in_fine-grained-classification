@@ -1,5 +1,6 @@
 
 #include <iostream>
+#include <fstream>
 #include <vector>
 #include <stdlib.h>
 #include <memory>
@@ -7,6 +8,8 @@
 #include "windows.h"
 #include<time.h>
 #include <io.h>
+#include "opencv.h"
+#include <hash_map>
 using namespace std;
 
 float gaussrand(float ave, float var)
@@ -111,3 +114,61 @@ int getFiles(string rootPath, string format, vector<string> &files)
 	}
 }
 
+void matSave_oneChannel(string fileName, Mat &data)
+{
+	ofstream outfileBin;
+	outfileBin.open(fileName, ios::binary);
+	int row = data.rows;
+	int col = data.cols;
+	
+	outfileBin.write((char *)&row, sizeof(row));
+	outfileBin.write((char *)&col, sizeof(col));
+
+	for (int h = 0; h < row; h++)
+	{
+		for (int w = 0; w < col; w++)
+		{
+			float tmp = data.at<float>(h, w);
+			outfileBin.write((char *)&tmp, sizeof(tmp));
+		}
+	}
+
+	outfileBin.close();
+}
+
+void matLoad_oneChannel(string fileName, Mat &data)
+{
+	ifstream infileBin;
+	infileBin.open(fileName, ios::binary);
+	int row = 0;
+	int col = 0;
+
+	infileBin.read((char *)&row, sizeof(row));
+	infileBin.read((char *)&col, sizeof(col));
+	data.create(row, col, CV_32FC1);
+	for (int h = 0; h < row; h++)
+	{
+		for (int w = 0; w < col; w++)
+		{
+			float tmp = 0;
+			infileBin.read((char *)&tmp, sizeof(tmp));
+			data.at<float>(h, w) = tmp;
+		}
+	}
+
+	infileBin.close();
+}
+
+void mapSave(string fileName, hash_map<int, int> &feature2kernel)
+{
+	ofstream outfile;
+	outfile.open(fileName);
+
+	for (hash_map<int, int>::iterator iter = feature2kernel.begin(); iter != feature2kernel.end(); iter++)
+	{
+		outfile << iter->first << "," << iter->second << endl;
+	}
+
+	outfile.close();
+
+}
