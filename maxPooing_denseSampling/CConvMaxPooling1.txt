@@ -1,0 +1,19 @@
+conv image No.0 vs 3 : F:\machineLearning\dataset\CUB-200\images\images\001.Black_footed_Albatross\Black_footed_Albatross_0002_2293084168.jpg
+	 conv kernel No.0 vs 11; kernel_id=7000; sign_expand_kernel=1
+	 conv kernel No.1 vs 11; kernel_id=7001; sign_expand_kernel=1
+	 conv kernel No.2 vs 11; kernel_id=7002; sign_expand_kernel=1
+	 conv kernel No.3 vs 11; kernel_id=7003; sign_expand_kernel=1
+	 conv kernel No.4 vs 11; kernel_id=7004; sign_expand_kernel=1
+	 conv kernel No.5 vs 11; kernel_id=7005; sign_expand_kernel=1
+	 conv kernel No.6 vs 11; kernel_id=7006; sign_expand_kernel=1
+	 conv kernel No.7 vs 11; kernel_id=7007; sign_expand_kernel=1
+	 conv kernel No.8 vs 11; kernel_id=7008; sign_expand_kernel=1
+	 conv kernel No.9 vs 11; kernel_id=7009; sign_expand_kernel=1
+	 conv kernel No.10 vs 11; kernel_id=7010; sign_expand_kernel=1
+conv image No.1 vs 3 : F:\machineLearning\dataset\CUB-200\images\images\001.Black_footed_Albatross\Black_footed_Albatross_0013_2445550421.jpg
+	 conv kernel No.0 vs 11; kernel_id=7000; sign_expand_kernel=1
+	 conv kernel No.1 vs 11; kernel_id=7001; sign_expand_kernel=1
+	 conv kernel No.2 vs 11; kernel_id=7002; sign_expand_kernel=1
+	 conv kernel No.3 vs 11; kernel_id=7003; sign_expand_kernel=1
+	 conv kernel No.4 vs 11; kernel_id=7004; sign_expand_kernel=1
+	 conv kernel No.5 vs 11; kernel_id=7005; sign_expand_kernel=1
