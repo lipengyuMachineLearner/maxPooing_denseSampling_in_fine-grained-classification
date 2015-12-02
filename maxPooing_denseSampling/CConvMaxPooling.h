@@ -3,6 +3,7 @@
 #include "opencv.h "
 #include "CSamplingKernel.h"
 #include <fstream>
+#include <hash_map>
 using namespace std;
 class CConvMaxPooling
 {
@@ -17,6 +18,7 @@ private:
 
 	Mat feature_;
 	Mat vote_feature_;
+	hash_map<int, int> feature2kernel_;
 
 	ofstream logfile_;
 	static string cof_;

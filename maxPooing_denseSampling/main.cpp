@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <time.h>
 #include "config.h"
 #include "CRandomDenseSampling.h"
 #include "CConvMaxPooling.h"
@@ -35,7 +36,7 @@ int main()
 {
 	
 	
-	
+	cout << "starting..." << endl;
 
 	//densely sampling
 	//vector<string> fileName_vec;
@@ -63,8 +64,12 @@ int main()
 	int num_img = getUCB200Config("config_t.txt", fileName_vec, label_vec);
 	CConvMaxPooling conMaxPooling(num_kernel, num_img, fileName_vec, label_vec, kernelName_vec, CONVOLUTION_PATH);
 
+	clock_t t1 = clock();
 	conMaxPooling.train(SIGN_EXPAND_KERNEL, CONV_STEP);
-	
+	clock_t t2 = clock();
+
+	cout << "Complete Training, Running time=" << t2 - t1 << endl;
+
 	Mat tmp;
 	matLoad_oneChannel("feature.bin", tmp);
 

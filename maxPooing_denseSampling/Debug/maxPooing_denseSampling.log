@@ -1,8 +1,10 @@
-﻿Build started 2015/12/1 16:40:33.
+﻿Build started 2015/12/2 13:32:22.
      1>Project "F:\machineLearning\code\maxPooing_denseSampling_in_fine-grained-classification\maxPooing_denseSampling\maxPooing_denseSampling\maxPooing_denseSampling.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         D:\Program Files\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt CConvMaxPooling.cpp
+         D:\Program Files\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /openmp /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt CConvMaxPooling.cpp main.cpp
+         main.cpp
          CConvMaxPooling.cpp
+         Generating Code...
        Link:
          D:\Program Files\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"F:\machineLearning\code\maxPooing_denseSampling_in_fine-grained-classification\maxPooing_denseSampling\Debug\maxPooing_denseSampling.exe" /INCREMENTAL /NOLOGO opencv_calib3d2410d.lib opencv_contrib2410d.lib opencv_core2410d.lib opencv_features2d2410d.lib opencv_flann2410d.lib opencv_gpu2410d.lib opencv_highgui2410d.lib opencv_imgproc2410d.lib opencv_legacy2410d.lib opencv_ml2410d.lib opencv_nonfree2410d.lib opencv_objdetect2410d.lib opencv_photo2410d.lib opencv_stitching2410d.lib opencv_ts2410d.lib opencv_video2410d.lib opencv_videostab2410d.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"F:\machineLearning\code\maxPooing_denseSampling_in_fine-grained-classification\maxPooing_denseSampling\Debug\maxPooing_denseSampling.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"F:\machineLearning\code\maxPooing_denseSampling_in_fine-grained-classification\maxPooing_denseSampling\Debug\maxPooing_denseSampling.lib" /MACHINE:X86 Debug\CConvMaxPooling.obj
          Debug\CimgConvolution.obj
@@ -15,4 +17,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.82
+Time Elapsed 00:00:03.85

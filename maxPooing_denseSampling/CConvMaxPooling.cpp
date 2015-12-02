@@ -1,6 +1,6 @@
 #include "CConvMaxPooling.h"
 #include "CimgConvolution.h"
-#include <hash_map>
+
 void checkPath(string path);
 void matSave_oneChannel(string fileName, Mat &data);
 void matLoad_oneChannel(string fileName, Mat &data);
@@ -27,7 +27,7 @@ CConvMaxPooling::CConvMaxPooling(int num_kernel, int num_img, vector<string> &im
 
 void CConvMaxPooling::ConvMaxPooling(int step_conv, bool sign_expand_kernel)
 {
-	hash_map<int, int> feature2kernel;
+	
 	for (int i_img = 0; i_img < num_img_; i_img++)
 	{
 		cout << "conv image No." << i_img << " vs " << num_img_ << " : " << img_files_[i_img] << endl;
@@ -38,6 +38,7 @@ void CConvMaxPooling::ConvMaxPooling(int step_conv, bool sign_expand_kernel)
 		int height_img = img->height;
 		int step_img = img->widthStep;
 		
+#pragma omp parallel for
 		for (int i_kernel = 0; i_kernel < num_kernel_; i_kernel++)
 		{
 			CSamplingKernel kernel;
@@ -54,9 +55,9 @@ void CConvMaxPooling::ConvMaxPooling(int step_conv, bool sign_expand_kernel)
 			Mat &img_convolution = imgConvolution.data_;
 
 			max = kernel.convolution(img, img_convolution, width_convolution, height_convolution, maxPosition, sign_expand_kernel, step_conv);
-			feature_.at<float>(i_img, i_kernel) += max;
-			if (feature2kernel.find(i_kernel) == feature2kernel.end())
-				feature2kernel[i_kernel] = id_kernel;
+			feature_.at<float>(i_img, i_kernel) = max;
+			if (feature2kernel_.find(i_kernel) == feature2kernel_.end())
+				feature2kernel_[i_kernel] = id_kernel;
 
 			string::size_type pos1 = img_files_[i_img].rfind("\\");
 			string::size_type pos2 = img_files_[i_img].rfind(".");
@@ -88,7 +89,7 @@ void CConvMaxPooling::ConvMaxPooling(int step_conv, bool sign_expand_kernel)
 	}
 
 	matSave_oneChannel("feature.bin", feature_);
-	mapSave("feature2kernel.csv", feature2kernel);
+	mapSave("feature2kernel.csv", feature2kernel_);
 	
 }
 

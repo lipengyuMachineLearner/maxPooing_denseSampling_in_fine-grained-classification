@@ -100,29 +100,29 @@ float CSamplingKernel::convolution(IplImage *img, Mat &img_convolution, int &wid
 
 	width_convolution = ((width_img - width_) / conv_step + 1);
 	height_convolution = ((height_img - height_) / conv_step + 1);
-	//Mat img_mat = Mat::zeros(((width_img - width_) / conv_step + 1) * ((height_img - height_) / conv_step + 1), width_*height_, CV_32FC3);
-
-	//int h_mat = 0;
-	//int w_mat = 0;
-	//for (int h = 0; h < height_img-height_; h += conv_step)
-	//{
-	//	for (int w = 0; w < width_img-width_; w += conv_step)
-	//	{
-	//		w_mat = 0;
-	//		for (int hh = 0; hh < height_; hh++)
-	//		{
-	//			for (int ww = 0; ww < width_; ww++)
-	//			{
-	//				for (int cc = 0; cc < channel_img; cc++)
-	//				{
-	//					img_mat.at<Vec3f>(h_mat, w_mat)[cc] = data_img[cc + (w + ww)*channel_img + (h + hh)*step_img];
-	//				}
-	//				w_mat++;
-	//			}
-	//		}
-	//		h_mat++;
-	//	}
-	//}
+	
+	/*Mat img_mat = Mat::zeros(width_convolution*height_convolution, width_*height_, CV_32FC3);
+	int h_mat = 0;
+	int w_mat = 0;
+	for (int h = 0; h < height_img-height_; h += conv_step)
+	{
+		for (int w = 0; w < width_img-width_; w += conv_step)
+		{
+			w_mat = 0;
+			for (int hh = 0; hh < height_; hh++)
+			{
+				for (int ww = 0; ww < width_; ww++)
+				{
+					for (int cc = 0; cc < channel_img; cc++)
+					{
+						img_mat.at<Vec3f>(h_mat, w_mat)[cc] = data_img[cc + (w + ww)*channel_img + (h + hh)*step_img];
+					}
+					w_mat++;
+				}
+			}
+			h_mat++;
+		}
+	}*/
 
 	Mat kernel_mat;
 	if (sign_expand_kernel == false)
@@ -193,6 +193,7 @@ float CSamplingKernel::convolution(IplImage *img, Mat &img_convolution, int &wid
 	}
 
 	//img_convolution = img_mat * kernel_mat;
+
 	for (int k = 0; k < kernel_mat.cols; k++)
 	{
 		int ind = 0;
