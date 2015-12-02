@@ -1,2 +1,5 @@
 conv image No.0 vs 3 : F:\machineLearning\dataset\CUB-200\images\images\001.Black_footed_Albatross\Black_footed_Albatross_0002_2293084168.jpg
-	 conv kernel No.0 vs 5; kernel_id=7000; sign_expand_kernel=1
+	 conv kernel No.4 vs 5; kernel_id=7004; sign_expand_kernel=0
+	 conv kernel No.3 vs 5; kernel_id=7003; sign_expand_kernel=0
+	 conv kernel No.0 vs 5; kernel_id=7000; sign_expand_kernel=0
+	 conv kernel No.2 vs 5; kernel_id=7002; sign_expand_kernel=0

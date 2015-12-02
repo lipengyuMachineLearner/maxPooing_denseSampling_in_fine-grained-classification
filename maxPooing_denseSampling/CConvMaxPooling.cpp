@@ -74,8 +74,8 @@ void CConvMaxPooling::ConvMaxPooling(int step_conv, bool sign_expand_kernel)
 
 
 
-			//imgConvolution.showAsImg();
-			/*int width_kernel, height_kernel, channel_kernel;
+			/*imgConvolution.showAsImg();
+			int width_kernel, height_kernel, channel_kernel;
 			std::cout << max << std::endl;
 			kernel.getParam(width_kernel, height_kernel);
 			Mat img_kernel;

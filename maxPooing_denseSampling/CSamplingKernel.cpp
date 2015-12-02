@@ -90,7 +90,6 @@ void CSamplingKernel::setData(IplImage *img, Point center)
 float CSamplingKernel::convolution(IplImage *img, Mat &img_convolution, int &width_convolution, int &height_convolution, Point &maxPosition, bool sign_expand_kernel, int conv_step)
 {
 	float max = -10000;
-	int maxInd = 0;
 
 	int width_img = img->width;
 	int height_img = img->height;
@@ -134,7 +133,7 @@ float CSamplingKernel::convolution(IplImage *img, Mat &img_convolution, int &wid
 			{
 				for (int c = 0; c < channel_; c++)
 				{
-					kernel_mat.at<Vec3f>(w + h*width_, 0)[c] = data_.at<Vec3f>(h, w)[c] + ((float)rand())/RAND_MAX*0.5*data_.at<Vec3f>(h, w)[c];;
+					kernel_mat.at<Vec3f>(w + h*width_, 0)[c] = data_.at<Vec3f>(h, w)[c] + ((float)rand())/RAND_MAX*0.0*data_.at<Vec3f>(h, w)[c];;
 				}
 			}
 		}
@@ -162,16 +161,16 @@ float CSamplingKernel::convolution(IplImage *img, Mat &img_convolution, int &wid
 					//kernel_mat.at<Vec3f>(width_ - 1 - w + h*width_, 6)[c] = data_.at<Vec3f>(h, width_ - 1 - w)[c];
 					//kernel_mat.at<Vec3f>(width_ - 1 - w + h*width_, 7)[c] = data_.at<Vec3f>(height_ - 1 - h, width_ - 1 - w)[c];
 
-					kernel_mat.at<Vec3f>(w + (height_ - 1 - h)*width_, 1)[c] = data_.at<Vec3f>(h, w)[c] + rand() / RAND_MAX * 0.5*data_.at<Vec3f>(h, w)[c];
-					kernel_mat.at<Vec3f>(w + (height_ - 1 - h)*width_, 2)[c] = data_.at<Vec3f>(height_ - 1 - h, w)[c] + rand() / RAND_MAX * 0.5*data_.at<Vec3f>(height_ - 1 - h, w)[c];
-					kernel_mat.at<Vec3f>(w + (height_ - 1 - h)*width_, 3)[c] = data_.at<Vec3f>(h, width_ - 1 - w)[c] + rand() / RAND_MAX * 0.5*data_.at<Vec3f>(height_ - 1 - h, w)[c];
-					kernel_mat.at<Vec3f>(w + (height_ - 1 - h)*width_, 4)[c] = data_.at<Vec3f>(height_ - 1 - h, width_ - 1 - w)[c] + rand() / RAND_MAX * 0.5*data_.at<Vec3f>(height_ - 1 - h, w)[c];
+					kernel_mat.at<Vec3f>(w + (height_ - 1 - h)*width_, 1)[c] = data_.at<Vec3f>(h, w)[c] + ((float)rand()) / RAND_MAX*0.5*data_.at<Vec3f>(h, w)[c];
+					kernel_mat.at<Vec3f>(w + (height_ - 1 - h)*width_, 2)[c] = data_.at<Vec3f>(height_ - 1 - h, w)[c] + ((float)rand()) / RAND_MAX*0.5*data_.at<Vec3f>(height_ - 1 - h, w)[c];
+					kernel_mat.at<Vec3f>(w + (height_ - 1 - h)*width_, 3)[c] = data_.at<Vec3f>(h, width_ - 1 - w)[c] + ((float)rand()) / RAND_MAX*0.5*data_.at<Vec3f>(height_ - 1 - h, w)[c];
+					kernel_mat.at<Vec3f>(w + (height_ - 1 - h)*width_, 4)[c] = data_.at<Vec3f>(height_ - 1 - h, width_ - 1 - w)[c] + ((float)rand()) / RAND_MAX*0.5*data_.at<Vec3f>(height_ - 1 - h, w)[c];
 
 
-					kernel_mat.at<Vec3f>(h + w*height_, 5)[c] = data_.at<Vec3f>(h, w)[c] + rand() / RAND_MAX * 0.5*data_.at<Vec3f>(height_ - 1 - h, w)[c];
-					kernel_mat.at<Vec3f>(h + w*height_, 6)[c] = data_.at<Vec3f>(height_ - 1 - h, w)[c] + rand() / RAND_MAX * 0.5*data_.at<Vec3f>(height_ - 1 - h, w)[c];
-					kernel_mat.at<Vec3f>(h + w*height_, 7)[c] = data_.at<Vec3f>(h, width_ - 1 - w)[c] + rand() / RAND_MAX * 0.5*data_.at<Vec3f>(height_ - 1 - h, w)[c];
-					kernel_mat.at<Vec3f>(h + w*height_, 0)[c] = data_.at<Vec3f>(height_ - 1 - h, width_ - 1 - w)[c] + rand() / RAND_MAX * 0.5*data_.at<Vec3f>(height_ - 1 - h, w)[c];
+					kernel_mat.at<Vec3f>(h + w*height_, 5)[c] = data_.at<Vec3f>(h, w)[c] + ((float)rand()) / RAND_MAX*0.5*data_.at<Vec3f>(height_ - 1 - h, w)[c];
+					kernel_mat.at<Vec3f>(h + w*height_, 6)[c] = data_.at<Vec3f>(height_ - 1 - h, w)[c] + ((float)rand()) / RAND_MAX*0.5*data_.at<Vec3f>(height_ - 1 - h, w)[c];
+					kernel_mat.at<Vec3f>(h + w*height_, 7)[c] = data_.at<Vec3f>(h, width_ - 1 - w)[c] + ((float)rand()) / RAND_MAX*0.5*data_.at<Vec3f>(height_ - 1 - h, w)[c];
+					kernel_mat.at<Vec3f>(h + w*height_, 0)[c] = data_.at<Vec3f>(height_ - 1 - h, width_ - 1 - w)[c] + ((float)rand()) / RAND_MAX*0.5*data_.at<Vec3f>(height_ - 1 - h, w)[c];
 
 					//kernel_mat.at<Vec3f>(height_ - 1 - h + w*height_, 16)[c] = data_.at<Vec3f>(h, w)[c];
 					//kernel_mat.at<Vec3f>(height_ - 1 - h + w*height_, 17)[c] = data_.at<Vec3f>(height_ - 1 - h, w)[c];
@@ -197,6 +196,7 @@ float CSamplingKernel::convolution(IplImage *img, Mat &img_convolution, int &wid
 	for (int k = 0; k < kernel_mat.cols; k++)
 	{
 		int ind = 0;
+
 		for (int h = 0; h <= height_img - height_; h += conv_step)
 		{
 			for (int w = 0; w <= width_img - width_; w += conv_step)
@@ -205,7 +205,8 @@ float CSamplingKernel::convolution(IplImage *img, Mat &img_convolution, int &wid
 				if (max < img_convolution.at<float>(ind, k))
 				{
 					max = img_convolution.at<float>(ind, k);
-					maxInd = ind;
+					maxPosition.y = h;
+					maxPosition.x = w;
 				}
 				ind++;
 			}
@@ -236,9 +237,6 @@ float CSamplingKernel::convolution(IplImage *img, Mat &img_convolution, int &wid
 		cout << "****" << endl;*/
 	}
 
-
-	maxPosition.y = maxInd / width_convolution;
-	maxPosition.x = maxInd - maxPosition.y * width_convolution;
 	return max;
 }
 
@@ -254,8 +252,8 @@ float CSamplingKernel::convolutionComputer(IplImage *img, Mat &kernel, int x, in
 	float sum_img = 0;
 	float sum_kernel = 0;
 
-	Mat img_ori(height_, width_, CV_32FC3);
-	Mat img_kernel(height_, width_, CV_32FC3);
+	//Mat img_ori(height_, width_, CV_32FC3);
+	//Mat img_kernel(height_, width_, CV_32FC3);
 	for (int h = 0; h < height_; h++)
 	{
 		for (int w = 0; w < width_; w++)
@@ -267,9 +265,9 @@ float CSamplingKernel::convolutionComputer(IplImage *img, Mat &kernel, int x, in
 				if (x + w < width_img && y + h < height_img)
 				{
 					tmp_data_img = data_img[c + (x + w)*channel_img + (y + h)*step_img] / 255.0;
-					img_ori.at<Vec3f>(h, w)[c] = tmp_data_img;
+					//img_ori.at<Vec3f>(h, w)[c] = tmp_data_img;
 				}
-				img_kernel.at<Vec3f>(h, w)[c] = tmp_data_kernel;
+				//img_kernel.at<Vec3f>(h, w)[c] = tmp_data_kernel;
 
 				result += tmp_data_img*tmp_data_kernel;
 				sum_img += tmp_data_img*tmp_data_img;
