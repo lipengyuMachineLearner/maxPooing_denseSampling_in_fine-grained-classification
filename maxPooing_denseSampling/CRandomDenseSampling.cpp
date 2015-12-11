@@ -13,7 +13,7 @@ void CRandomDenseSampling::RandomDenseSampling(string segmentPath)
 	cout << "##################" << endl << "RandomDenseSampling... ";
 	logfile_ << "##################" << endl << "RandomDenseSampling... ";
 	srand((int)time(0));
-	
+
 	for (int i_file = 0; i_file < num_img_; i_file++)
 	{
 		IplImage *img = cvLoadImage(imgFiles_[i_file].c_str(), CV_LOAD_IMAGE_COLOR);
@@ -51,6 +51,7 @@ void CRandomDenseSampling::RandomDenseSampling(string segmentPath)
 			int width_scalar = scalar_[i_scalar];
 			int height_scalar = scalar_[i_scalar];
 			int iter_threshold = 100 * num_kernelInScalar_[i_scalar];
+
 			for (int i_kernel = 0; i_kernel < num_kernelInScalar_[i_scalar]; )
 			{
 				if (iter_threshold == 0)
@@ -77,17 +78,17 @@ void CRandomDenseSampling::RandomDenseSampling(string segmentPath)
 				
 
 				CSamplingKernel kernel(width_scalar, height_scalar);
-				kernel.setIndexAndLabel(label_[i_file], index_);
 				kernel.setSrcName(name_src);
 				kernel.setData(img, center);
-				
+				kernel.setIndexAndLabel(label_[i_file], index_);
+
 				char buf[100];
 				sprintf(buf, "%d", index_);
 				string tmp = buf;
 				string saveName = savePath + "\\" + name_src + "_" + tmp + ".bin";
 				kernel.save(saveName);
-
 				index_++;
+				
 			}
 		}
 	}

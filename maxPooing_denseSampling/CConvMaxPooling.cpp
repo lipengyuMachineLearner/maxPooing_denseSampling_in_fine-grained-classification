@@ -7,7 +7,7 @@ void matLoad_oneChannel(string fileName, Mat &data);
 void mapSave(string fileName, hash_map<int,int> &feature2kernel);
 
 string CConvMaxPooling::cof_ = "1";
-CConvMaxPooling::CConvMaxPooling(int num_kernel, int num_img, vector<string> &img_files, vector<int> &label_vec, vector<string> &kernel_files, string convolutionSavePath)
+CConvMaxPooling::CConvMaxPooling(int num_kernel, int num_img, vector<string> &img_files, vector<int> &label_vec, vector<string> &kernel_files, string convolutionSavePath, int num_target, const int *targetClass)
 {
 	num_kernel_ = num_kernel;
 	num_img_ = num_img;
@@ -18,6 +18,10 @@ CConvMaxPooling::CConvMaxPooling(int num_kernel, int num_img, vector<string> &im
 
 	feature_ = Mat::zeros(num_img_, num_kernel_, CV_32FC1);
 	vote_feature_ = Mat::zeros(num_kernel_, 1, CV_32FC1);
+
+	num_target_ = num_target;
+	targetClass_ = new int[num_target_];
+	memcpy(targetClass_, targetClass, sizeof(int)*num_target_);
 
 	logfile_.open("CConvMaxPooling" + cof_ + ".txt");
 	cof_ += "1";
@@ -113,11 +117,104 @@ bool CConvMaxPooling::generateConvolutionImage(vector<Mat> &img, Mat &img_convol
 	return true;
 }
 
-float CConvMaxPooling::train(bool sign_expand_kernel, int step_conv)
+void CConvMaxPooling::getLabel(int targetLabel, float *num_eachClass)
+{
+	label_.create(num_img_, 1, CV_32FC1);
+	for (int i_img = 0; i_img < num_img_; i_img++)
+	{
+		string::size_type pos1 = img_files_[i_img].rfind("\\");
+		string::size_type pos2 = img_files_[i_img].rfind("\\",pos1-1);
+		pos1 = img_files_[i_img].find(".");
+		string labelStr = img_files_[i_img].substr(pos2 + 1, pos1 - pos2 - 1);
+		int labelTmp = atoi(labelStr.c_str());
+		if (labelTmp == targetLabel)
+		{
+			label_.at<float>(i_img, 0) = 1;
+			num_eachClass[1] += 1;
+		}
+		else
+		{
+			label_.at<float>(i_img, 0) = 0;
+			num_eachClass[0] += 1;
+		}
+	}
+}
+
+
+float CConvMaxPooling::train()
 {
 	float result = 0;
-	ConvMaxPooling(step_conv, sign_expand_kernel);
-	result = trainWithRandomForest();
+	//ConvMaxPooling(step_conv, sign_expand_kernel);
+	matLoad_oneChannel("feature.bin", feature_);
+
+	float num_eachClass[2] = { 0, 0 };
+	for (int target_i = 0; target_i < num_target_; target_i++)
+	{
+		memset(num_eachClass, 0, sizeof(float)*2);
+		getLabel(targetClass_[target_i], num_eachClass);
+		result = trainWithRandomForest(num_eachClass, 2, targetClass_[target_i]);
+	}
 
 	return result;
+}
+
+
+
+float CConvMaxPooling::trainWithRandomForest(float *num_eachClass, int dim, int targetClass)
+{ 
+	float sum = 0;
+	for (int i = 0; i < dim; i++)
+		sum += num_eachClass[i];
+	for (int i = 0; i < dim; i++)
+		num_eachClass[i] = num_eachClass[i] / sum;
+
+	CvDTreeParams  params = CvDTreeParams
+		(
+			100,
+			1,
+			0,
+			true,
+			2,
+			2,
+			true,
+			true,
+			num_eachClass
+		);
+
+	CvDTree *classifier = new CvDTree();
+	Mat varType(feature_.cols + 1, 1, CV_8U);
+	for (int i = 0; i < varType.rows; i++)
+		varType.at<unsigned char>(i, 0) = CV_VAR_CATEGORICAL;
+
+
+	classifier->train
+		(
+			feature_,
+			CV_ROW_SAMPLE,
+			label_,
+			Mat(),
+			Mat(),
+			Mat(),
+			Mat(),
+			params
+		);
+
+	float error = 0;
+	for (int i_img = 0; i_img < num_img_; i_img++)
+	{
+		Mat row = feature_.row(i_img);
+		float labelPredict = classifier->predict(row)->value;
+		float labelGroundtruth = label_.at<float>(i_img, 0);
+
+		if (abs(labelPredict - labelGroundtruth) > 0.5)
+			error++;
+	}
+	
+	char tmp[33];
+	sprintf(tmp, "%d", targetClass);
+	string t = tmp;
+	classifier->save(("CDTree_" + t + ".xml").c_str());
+
+	//delete classifier;
+	return error / num_img_; 
 }

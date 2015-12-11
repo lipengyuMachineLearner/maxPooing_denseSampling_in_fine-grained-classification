@@ -1,4 +1,4 @@
-
+#pragma once
 #include <iostream>
 #include <fstream>
 #include <vector>
@@ -10,6 +10,7 @@
 #include <io.h>
 #include "opencv.h"
 #include <hash_map>
+
 using namespace std;
 
 float gaussrand(float ave, float var)
@@ -172,3 +173,4 @@ void mapSave(string fileName, hash_map<int, int> &feature2kernel)
 	outfile.close();
 
 }
+

@@ -1,7 +1,9 @@
-﻿Build started 2015/12/2 14:42:20.
+﻿Build started 2015/12/11 9:41:14.
      1>Project "F:\machineLearning\code\maxPooing_denseSampling_in_fine-grained-classification\maxPooing_denseSampling\maxPooing_denseSampling\maxPooing_denseSampling.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         D:\Program Files\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /sdl /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /openmp /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp
+         D:\Program Files\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /sdl /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /openmp /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt CConvMaxPooling.cpp main.cpp
+         CConvMaxPooling.cpp
+     1>CConvMaxPooling.cpp(213): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
          main.cpp
        Link:
          D:\Program Files\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"F:\machineLearning\code\maxPooing_denseSampling_in_fine-grained-classification\maxPooing_denseSampling\Release\maxPooing_denseSampling.exe" /INCREMENTAL:NO /NOLOGO opencv_calib3d2410.lib opencv_contrib2410.lib opencv_core2410.lib opencv_features2d2410.lib opencv_flann2410.lib opencv_gpu2410.lib opencv_highgui2410.lib opencv_imgproc2410.lib opencv_legacy2410.lib opencv_ml2410.lib opencv_nonfree2410.lib opencv_objdetect2410.lib opencv_photo2410.lib opencv_stitching2410.lib opencv_ts2410.lib opencv_video2410.lib opencv_videostab2410.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"F:\machineLearning\code\maxPooing_denseSampling_in_fine-grained-classification\maxPooing_denseSampling\Release\maxPooing_denseSampling.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"F:\machineLearning\code\maxPooing_denseSampling_in_fine-grained-classification\maxPooing_denseSampling\Release\maxPooing_denseSampling.lib" /MACHINE:X86 /SAFESEH Release\CConvMaxPooling.obj
@@ -17,4 +19,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:03.05
+Time Elapsed 00:00:04.18

@@ -8,7 +8,7 @@ CSamplingKernel::CSamplingKernel(int width, int height)
 	width_ = width;
 	height_ = height;
 	channel_ = 3;
-	data_.create(height_, width_, CV_32FC3);
+	data_ = Mat::zeros(height_, width_, CV_32FC3);
 
 }
 
@@ -77,9 +77,12 @@ void CSamplingKernel::setData(IplImage *img, Point center)
 	{
 		for (int w = sta_x; w < end_x; w++)
 			for (int c = 0; c < nchannel_img; c++)
-		{
-			data_.at<Vec3f>(h-sta_y, w-sta_x)[c] = data_img[c + w*nchannel_img + h*step_img]/255.0;
-		}
+			{
+				if (w >= 0 && w < width_img && h >= 0 && h < height_img)
+					data_.at<Vec3f>(h - sta_y, w - sta_x)[c] = data_img[c + w*nchannel_img + h*step_img] / 255.0;
+				else
+					data_.at<Vec3f>(h - sta_y, w - sta_x)[c] = 0;
+			}
 	}
 
 	//cvShowImage("ORI", img);
@@ -133,7 +136,7 @@ float CSamplingKernel::convolution(IplImage *img, Mat &img_convolution, int &wid
 			{
 				for (int c = 0; c < channel_; c++)
 				{
-					kernel_mat.at<Vec3f>(w + h*width_, 0)[c] = data_.at<Vec3f>(h, w)[c] + ((float)rand())/RAND_MAX*0.0*data_.at<Vec3f>(h, w)[c];;
+					kernel_mat.at<Vec3f>(w + h*width_, 0)[c] = data_.at<Vec3f>(h, w)[c] + ((float)rand())/RAND_MAX*0.5*data_.at<Vec3f>(h, w)[c];;
 				}
 			}
 		}
@@ -208,6 +211,31 @@ float CSamplingKernel::convolution(IplImage *img, Mat &img_convolution, int &wid
 					maxPosition.y = h;
 					maxPosition.x = w;
 				}
+				
+				/*if (max == -10000 || max == 0)
+				{
+					Mat img_tmp(height_convolution, width_convolution, CV_32FC1);
+					Mat img_kernel(height_, width_, CV_32FC3);
+					for (int h = 0; h < height_convolution; h++)
+					{
+						for (int w = 0; w < width_convolution; w++)
+							img_tmp.at<float>(h, w) = img_convolution.at<float>(w + h*width_convolution, k);
+					}
+					for (int h = 0; h < height_; h++)
+					{
+						for (int w = 0; w < width_; w++)
+							for (int c = 0; c < 3; c++)
+								img_kernel.at<Vec3f>(h, w)[c] = kernel_mat.at<Vec3f>(w + h*width_, k)[c];
+					}
+
+					cvRectangle(img, cvPoint(maxPosition.x, maxPosition.y), cvPoint(maxPosition.x + width_, maxPosition.y + height_), cvScalar(0, 0, 255), 2);
+					cout << "####" << endl;
+					imshow("img_tmp", img_tmp);
+					imshow("img_kernel", img_kernel);
+					cvShowImage("img", img);
+					cvWaitKey(0);
+					cout << "****" << endl;
+				}*/
 				ind++;
 			}
 		}
@@ -225,15 +253,14 @@ float CSamplingKernel::convolution(IplImage *img, Mat &img_convolution, int &wid
 				for (int c = 0; c < 3; c++)
 					img_kernel.at<Vec3f>(h, w)[c] = kernel_mat.at<Vec3f>(w + h*width_, k)[c];
 		}
-		int tmpY = maxInd / width_convolution;
-		int tmpX = maxInd - tmpY * width_convolution;
-		cvRectangle(img, cvPoint(tmpX, tmpY), cvPoint(tmpX + width_, tmpY + height_), cvScalar(0, 0, 255), 2);
-		cout << maxInd << " : " << tmpX << " , " << tmpY << endl;
+
+		cvRectangle(img, cvPoint(maxPosition.x, maxPosition.y), cvPoint(maxPosition.x + width_, maxPosition.y + height_), cvScalar(0, 0, 255), 2);
 		cout << "####" << endl;
-		imshow("img_tmp", img_tmp);
-		imshow("img_kernel", img_kernel);
+		imshow("imgTmp", img_tmp);
+		imshow("imgKernel", img_kernel);
 		cvShowImage("img", img);
 		cvWaitKey(0);
+		cvDestroyAllWindows();
 		cout << "****" << endl;*/
 	}
 
@@ -261,6 +288,8 @@ float CSamplingKernel::convolutionComputer(IplImage *img, Mat &kernel, int x, in
 			for (int c = 0; c < channel_; c++)
 			{
 				float tmp_data_kernel = kernel.at<Vec3f>(w + h*width_)[c];
+				//if (abs(tmp_data_kernel) > 100)
+				//	continue;
 				float tmp_data_img = 0;
 				if (x + w < width_img && y + h < height_img)
 				{

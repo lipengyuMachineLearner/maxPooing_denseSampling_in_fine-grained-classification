@@ -14,5 +14,8 @@ const string CONVOLUTION_PATH = "F:\\machineLearning\\code\\maxPooing_denseSampl
 const bool SIGN_EXPAND_KERNEL = false;
 const int CONV_STEP = 5;
 
+const int NUM_TARGETCLASS = 1;
+const int TARGETCLASS[NUM_TARGETCLASS] = { 1 };
+
 
 
