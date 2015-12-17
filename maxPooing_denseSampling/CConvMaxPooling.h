@@ -32,8 +32,8 @@ private:
 	
 	float trainWithRandomForest(float *num_eachClass, int dim, int targetClass);
 	bool generateConvolutionImage(vector<Mat> &img, Mat &img_convolution, int width, int height);
-	void getLabel(int targetLabel, float *num_eachClass);
-
+	bool getLabel(int targetLabel, float *num_eachClass);
+	bool getFeatureImportant(const CvDTreeNode  *root);
 
 public:
 	CConvMaxPooling(int num_kernel, int num_img, vector<string> &img_files, vector<int> &label_vec, vector<string> &kernel_files, string convolutionSavePath, int num_target, const int *targetClass);

@@ -64,14 +64,14 @@ int main()
 	int num_img = getUCB200Config("config_t.txt", fileName_vec, label_vec);
 	CConvMaxPooling conMaxPooling(num_kernel, num_img, fileName_vec, label_vec, kernelName_vec, CONVOLUTION_PATH, NUM_TARGETCLASS, TARGETCLASS);
 
-	clock_t t1 = clock();
-	//conMaxPooling.ConvMaxPooling(SIGN_EXPAND_KERNEL, CONV_STEP);
-	clock_t t2 = clock();
-	cout << "Complete MaxPooling, Running time=" << t2 - t1 << endl;
+	//clock_t t1 = clock();
+	//conMaxPooling.ConvMaxPooling(CONV_STEP,SIGN_EXPAND_KERNEL);
+	//clock_t t2 = clock();
+	//cout << "Complete MaxPooling, Running time=" << t2 - t1 << endl;
 
-	t1 = clock();
+	clock_t t1 = clock();
 	float error = conMaxPooling.train();
-	t2 = clock();
+	clock_t t2 = clock();
 	cout << "training error = " << error << endl;
 	cout << "Complete training, Running time=" << t2 - t1 << endl;
 

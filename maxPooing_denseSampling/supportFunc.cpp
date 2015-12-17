@@ -167,10 +167,21 @@ void mapSave(string fileName, hash_map<int, int> &feature2kernel)
 
 	for (hash_map<int, int>::iterator iter = feature2kernel.begin(); iter != feature2kernel.end(); iter++)
 	{
-		outfile << iter->first << "," << iter->second << endl;
+		outfile << iter->first << " " << iter->second << endl;
 	}
 
 	outfile.close();
 
 }
 
+void mapLoad(string fileName, hash_map<int, int> &feature2kernel)
+{
+	ifstream infile;
+	infile.open(fileName);
+
+	int key, value;
+	while (infile >> key >> value)
+		feature2kernel[key] = value;
+
+	infile.close();
+}
